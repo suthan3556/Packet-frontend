@@ -1,14 +1,21 @@
-
 import axios from "axios";
 
+// Determine base URL, ensuring /api is included
+const rawBase =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000/api";
+
+const trimmedBase = String(rawBase).trim().replace(/\/+$/, "");
+const baseURL = trimmedBase.endsWith("/api")
+  ? trimmedBase
+  : `${trimmedBase}/api`;
+
 const API = axios.create({
-  baseURL:
-    import.meta.env.VITE_API_URL ||
-    "https://packet-backend-1.onrender.com",
+  baseURL,
   headers: {
     "Content-Type": "application/json"
   },
-  timeout: 30000
+  timeout: 10000
 });
 
 // Get all packets
