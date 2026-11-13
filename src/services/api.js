@@ -11,7 +11,13 @@ const baseURL = trimmedBase.endsWith("/api")
   : `${trimmedBase}/api`;
 
 const API = axios.create({
+<<<<<<< HEAD
   baseURL,
+=======
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "https://packet-backend-2.onrender.com",
+>>>>>>> c02d3460e03da082982474acafa26ac977c08974
   headers: {
     "Content-Type": "application/json"
   },
