@@ -1,23 +1,19 @@
+
 import axios from "axios";
 
-// Determine base URL, ensuring /api is included
+// Determine base URL
 const rawBase =
   import.meta.env.VITE_API_URL ||
-  "http://localhost:5000/api";
+  "https://packet-backend-2.onrender.com/api";
 
 const trimmedBase = String(rawBase).trim().replace(/\/+$/, "");
+
 const baseURL = trimmedBase.endsWith("/api")
   ? trimmedBase
   : `${trimmedBase}/api`;
 
 const API = axios.create({
-<<<<<<< HEAD
   baseURL,
-=======
-  baseURL:
-    import.meta.env.VITE_API_URL ||
-    "https://packet-backend-2.onrender.com",
->>>>>>> c02d3460e03da082982474acafa26ac977c08974
   headers: {
     "Content-Type": "application/json"
   },
