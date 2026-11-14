@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { getPackets } from "../services/api";
 import ProtocolChart from "../components/ProtocolChart";
+import ConnectionGraph from "../components/ConnectionGraph";
 import {
   Activity,
   ShieldCheck,
@@ -43,8 +44,13 @@ function Dashboard() {
     <div className="page">
       <div className="page-heading">
         <div>
+          <span className="eyebrow">NETWORK OVERVIEW</span>
           <h1>Network Dashboard</h1>
           <p>Monitor and analyze network packet records.</p>
+        </div>
+        <div className="live-pill">
+          <span />
+          PACKET MONITOR
         </div>
       </div>
 
@@ -56,11 +62,13 @@ function Dashboard() {
 
           return (
             <div className="stat-card" key={item.title}>
-              <div className="stat-icon">
+              <div className="stat-icon stat-icon-frame">
                 <Icon size={25} />
               </div>
-              <p>{item.title}</p>
-              <h2>{item.value}</h2>
+              <div className="stat-copy">
+                <p>{item.title}</p>
+                <h2>{item.value}</h2>
+              </div>
             </div>
           );
         })}
@@ -68,17 +76,47 @@ function Dashboard() {
 
       <div className="protocol-grid">
         {["TCP", "UDP", "ICMP"].map(protocol => (
-          <div className="protocol-card" key={protocol}>
-            <span>{protocol}</span>
+          <div
+            className={`protocol-card protocol-${protocol.toLowerCase()}`}
+            key={protocol}
+          >
+            <div className="protocol-card-top">
+              <span>{protocol}</span>
+              <Network size={17} />
+            </div>
             <h2>{countProtocol(protocol)}</h2>
-            <small>Valid packets</small>
+            <small>Valid packets classified</small>
           </div>
         ))}
       </div>
 
       <section className="table-section">
-        <ProtocolChart packets={packets} />
-        <h2>Recent Packets</h2>
+        <div className="network-graph-panel">
+          <div className="graph-heading">
+            <div>
+              <span className="eyebrow">TRAFFIC TOPOLOGY</span>
+              <h2>IP Connection Graph</h2>
+            </div>
+            <span className="graph-legend">
+              <i className="legend-live" />
+              VALID = LIVE
+              <i className="legend-static" />
+              INVALID = STATIC
+            </span>
+          </div>
+          <ConnectionGraph packets={packets} />
+        </div>
+
+        <div className="chart-panel">
+          <ProtocolChart packets={packets} />
+        </div>
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow">LATEST ACTIVITY</span>
+            <h2>Recent Packets</h2>
+          </div>
+          <span className="section-count">{Math.min(packets.length, 5)} shown</span>
+        </div>
 
         <div className="table-wrapper">
           <table>

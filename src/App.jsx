@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
@@ -10,10 +11,24 @@ import DFAVisualizer from "./pages/DFAVisualizer";
 import "./App.css";
 
 function App() {
+  const [theme, setTheme] = useState(() =>
+    window.localStorage.getItem("netguard-theme") === "light" ? "light" : "dark"
+  );
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("netguard-theme", theme);
+  }, [theme]);
+
   return (
     <BrowserRouter>
       <div className="app-layout">
-        <Sidebar />
+        <Sidebar
+          theme={theme}
+          onToggleTheme={() =>
+            setTheme(current => current === "dark" ? "light" : "dark")
+          }
+        />
 
         <main className="main-content">
           <Routes>
